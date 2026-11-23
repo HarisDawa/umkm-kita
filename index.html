@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UMKMKita — Belanja Produk UMKM Sekitar Kita</title>
+<meta name="description" content="Katalog produk UMKM per kecamatan. Belanja langsung dari pedagang & pengrajin lokal, chat WhatsApp, bayar di tempat.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧺</text></svg>">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: { extend: {
+    fontFamily: { sans: ['Plus Jakarta Sans','system-ui','sans-serif'] },
+    colors: { brand: { 50:'#ecfdf5',100:'#d1fae5',200:'#a7f3d0',500:'#10b981',600:'#059669',700:'#047857',800:'#065f46',900:'#064e3b' } },
+    boxShadow: { soft: '0 10px 30px -12px rgba(6,95,70,.18)' }
+  } }
+}
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  body{font-family:'Plus Jakarta Sans',system-ui,sans-serif}
+  .no-scrollbar::-webkit-scrollbar{display:none}
+  .no-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
+  :focus-visible{outline:2px solid #059669;outline-offset:2px}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+  .clamp-2{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+</style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased">
+
+<a href="#katalog" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[60] focus:bg-white focus:px-4 focus:py-2 focus:rounded-lg focus:font-bold">Lompat ke katalog</a>
+
+<!-- HEADER -->
+<header class="sticky top-0 z-40 bg-white/85 backdrop-blur-md border-b border-slate-200/80">
+  <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between gap-3">
+    <a href="#" class="flex items-center gap-2.5 shrink-0" aria-label="UMKMKita beranda">
+      <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 text-white grid place-items-center font-extrabold shadow-soft">U</div>
+      <div class="leading-tight">
+        <div class="font-extrabold text-[15px] tracking-tight">UMKMKita</div>
+        <div class="text-[10px] text-slate-500 -mt-0.5">Produk warga sekitar</div>
+      </div>
+    </a>
+    <nav class="hidden md:flex items-center gap-1 text-sm font-semibold text-slate-600">
+      <a href="#kategori" class="px-3 py-2 rounded-lg hover:bg-slate-100 hover:text-brand-700">Kategori</a>
+      <a href="#katalog" class="px-3 py-2 rounded-lg hover:bg-slate-100 hover:text-brand-700">Katalog</a>
+      <a href="#toko" class="px-3 py-2 rounded-lg hover:bg-slate-100 hover:text-brand-700">UMKM</a>
+      <a href="#cara" class="px-3 py-2 rounded-lg hover:bg-slate-100 hover:text-brand-700">Cara Pesan</a>
+    </nav>
+    <div class="flex items-center gap-2">
+      <a href="#katalog" class="bg-brand-600 hover:bg-brand-700 text-white text-sm font-bold px-4 py-2.5 rounded-xl transition shadow-soft">Belanja</a>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="relative overflow-hidden">
+  <div class="absolute inset-0 bg-gradient-to-b from-brand-50 via-white to-white"></div>
+  <div class="absolute -top-32 -right-32 w-96 h-96 bg-brand-200/50 rounded-full blur-3xl"></div>
+  <div class="absolute top-52 -left-32 w-80 h-80 bg-amber-200/40 rounded-full blur-3xl"></div>
+
+  <div class="relative max-w-6xl mx-auto px-4 pt-12 pb-14 grid lg:grid-cols-[1.15fr_.85fr] gap-10 items-center">
+    <div>
+      <span class="inline-flex items-center gap-1.5 text-[11px] font-bold tracking-wide uppercase bg-brand-100 text-brand-700 px-3 py-1 rounded-full">
+        <span class="w-1.5 h-1.5 rounded-full bg-brand-600 animate-pulse"></span> 100% produk lokal
+      </span>
+      <h1 class="mt-4 text-[2rem] sm:text-5xl font-extrabold tracking-tight leading-[1.08]">
+        Mau cari produk UMKM apa hari ini, tetangga?
+      </h1>
+      <p class="mt-3 text-slate-600 max-w-lg">Belanja langsung dari pedagang & pengrajin di kecamatan Anda. Tanpa perantara, tanpa potongan, bayar setelah barang sampai.</p>
+
+      <div class="mt-6 flex items-center bg-white rounded-2xl shadow-soft border border-slate-200 p-2 max-w-xl">
+        <span class="pl-3 text-slate-400" aria-hidden="true">🔍</span>
+        <label for="q" class="sr-only">Cari produk UMKM</label>
+        <input id="q" type="search" placeholder="Cari: keripik, batik, kue basah, tas..." class="flex-1 min-w-0 px-3 py-2.5 bg-transparent outline-none text-sm placeholder:text-slate-400">
+        <button onclick="scrollToKatalog()" class="bg-brand-600 hover:bg-brand-700 text-white text-sm font-bold px-5 py-2.5 rounded-xl transition shrink-0">Cari</button>
+      </div>
+
+      <div class="mt-3 flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
+        <span class="text-[11px] font-semibold text-slate-400 shrink-0">Populer:</span>
+        <div id="heroChips" class="flex gap-2"></div>
+      </div>
+
+      <dl id="stats" class="mt-8 grid grid-cols-3 gap-3 max-w-md"></dl>
+    </div>
+
+    <!-- hero visual -->
+    <div class="relative hidden lg:block h-[380px]" aria-hidden="true">
+      <div class="absolute inset-6 bg-gradient-to-br from-brand-200/70 via-white to-amber-100 rounded-[2.5rem]"></div>
+      <div class="absolute left-2 top-10 w-52 bg-white rounded-2xl border border-slate-200 shadow-soft p-3 -rotate-6 hover:rotate-0 transition-transform duration-300">
+        <div class="h-28 rounded-xl bg-gradient-to-br from-red-200 to-rose-400 grid place-items-center text-5xl">🌶️</div>
+        <div class="mt-2 text-[11px] font-bold text-brand-700">Kuliner</div>
+        <div class="text-sm font-bold leading-tight">Sambal Bawang</div>
+        <div class="mt-1 font-extrabold text-brand-700 text-sm">Rp28.000</div>
+      </div>
+      <div class="absolute right-0 top-0 w-48 bg-white rounded-2xl border border-slate-200 shadow-soft p-3 rotate-6 hover:rotate-0 transition-transform duration-300">
+        <div class="h-24 rounded-xl bg-gradient-to-br from-indigo-200 to-purple-300 grid place-items-center text-4xl">🧵</div>
+        <div class="mt-2 text-[11px] font-bold text-brand-700">Fashion</div>
+        <div class="text-sm font-bold leading-tight">Batik Tulis</div>
+        <div class="mt-1 font-extrabold text-brand-700 text-sm">Rp285.000</div>
+      </div>
+      <div class="absolute left-16 bottom-0 w-56 bg-white rounded-2xl border border-slate-200 shadow-soft p-3 rotate-2 hover:rotate-0 transition-transform duration-300">
+        <div class="h-28 rounded-xl bg-gradient-to-br from-stone-300 to-amber-500 grid place-items-center text-5xl">☕</div>
+        <div class="mt-2 flex items-center justify-between">
+          <div class="text-sm font-bold leading-tight">Kopi Robusta</div>
+          <div class="text-[11px] text-slate-500">★4.9</div>
+        </div>
+        <div class="mt-1 font-extrabold text-brand-700 text-sm">Rp45.000</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- trust strip -->
+  <div class="relative border-y border-slate-200 bg-white/70">
+    <div class="max-w-6xl mx-auto px-4 py-3 grid grid-cols-2 md:grid-cols-4 gap-2 text-[11px] sm:text-xs font-semibold text-slate-600">
+      <div class="flex items-center gap-1.5">🛡️ Toko terverifikasi</div>
+      <div class="flex items-center gap-1.5">💵 Bayar di tempat</div>
+      <div class="flex items-center gap-1.5">🚫 Tanpa potongan</div>
+      <div class="flex items-center gap-1.5">💬 Chat langsung penjual</div>
+    </div>
+  </div>
+</section>
+
+<!-- KATEGORI -->
+<section id="kategori" class="max-w-6xl mx-auto px-4 py-12 scroll-mt-20">
+  <div class="flex items-end justify-between gap-3">
+    <div>
+      <h2 class="text-xl sm:text-2xl font-extrabold tracking-tight">Kategori Produk</h2>
+      <p class="text-sm text-slate-500 mt-0.5">Pilih kategori untuk mempersempit pilihan.</p>
+    </div>
+    <button onclick="resetFilter()" class="text-sm font-bold text-brand-700 hover:underline">Lihat semua</button>
+  </div>
+  <div id="catTiles" class="mt-5 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3"></div>
+</section>
+
+<!-- KATALOG -->
+<main id="katalog" class="max-w-6xl mx-auto px-4 pb-12 scroll-mt-20">
+  <div class="flex flex-wrap items-end justify-between gap-3">
+    <div>
+      <h2 class="text-xl sm:text-2xl font-extrabold tracking-tight">Katalog Produk</h2>
+      <p class="text-sm text-slate-500 mt-0.5"><span id="count" class="font-bold text-slate-700">0</span> produk ditemukan</p>
+    </div>
+    <div class="flex flex-wrap gap-2">
+      <label for="kec" class="sr-only">Filter kecamatan</label>
+      <select id="kec" class="text-sm font-semibold bg-white border border-slate-200 rounded-xl px-3 py-2.5 outline-none focus:border-brand-500"></select>
+      <label for="sort" class="sr-only">Urutkan</label>
+      <select id="sort" class="text-sm font-semibold bg-white border border-slate-200 rounded-xl px-3 py-2.5 outline-none focus:border-brand-500">
+        <option value="laris">Paling Laris</option>
+        <option value="murah">Harga Termurah</option>
+        <option value="mahal">Harga Termahal</option>
+        <option value="rating">Rating Tertinggi</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="mt-4 flex gap-2 overflow-x-auto no-scrollbar pb-2" id="catChips" role="group" aria-label="Filter kategori"></div>
+  <div id="activeFilters" class="mt-1 flex flex-wrap gap-2"></div>
+
+  <div id="grid" class="mt-5 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4"></div>
+
+  <div id="empty" class="hidden text-center py-20">
+    <div class="text-5xl">🧺</div>
+    <p class="mt-3 font-bold">Belum ada produk yang cocok</p>
+    <p class="text-sm text-slate-500">Coba kata kunci atau kecamatan lain.</p>
+    <button onclick="resetFilter()" class="mt-4 text-sm font-bold text-brand-700 hover:underline">Reset filter</button>
+  </div>
+</main>
+
+<!-- TOKO -->
+<section id="toko" class="bg-white border-y border-slate-200 scroll-mt-16">
+  <div class="max-w-6xl mx-auto px-4 py-12">
+    <div class="flex items-end justify-between gap-3">
+      <div>
+        <h2 class="text-xl sm:text-2xl font-extrabold tracking-tight">UMKM Pilihan</h2>
+        <p class="text-sm text-slate-500 mt-0.5">Penjual dengan penjualan terbanyak bulan ini.</p>
+      </div>
+      <span class="hidden sm:inline-flex items-center gap-1 text-xs font-bold bg-brand-50 text-brand-700 px-3 py-1.5 rounded-full">✅ KTP terverifikasi</span>
+    </div>
+    <div id="tokoGrid" class="mt-5 grid sm:grid-cols-2 lg:grid-cols-4 gap-3"></div>
+  </div>
+</section>
+
+<!-- CARA PESAN -->
+<section id="cara" class="max-w-6xl mx-auto px-4 py-12 scroll-mt-20">
+  <h2 class="text-xl sm:text-2xl font-extrabold tracking-tight text-center">Cara Mudah Belanja</h2>
+  <p class="text-sm text-slate-500 text-center mt-1">Tiga langkah, tanpa aplikasi tambahan.</p>
+  <div class="mt-8 grid sm:grid-cols-3 gap-4">
+    <div class="relative bg-white rounded-2xl border border-slate-200 p-5">
+      <span class="absolute top-4 right-4 text-4xl font-extrabold text-slate-100 select-none">1</span>
+      <div class="text-2xl">🔍</div>
+      <div class="mt-2 font-bold">Pilih produk</div>
+      <p class="text-sm text-slate-500 mt-1">Filter kategori & kecamatan terdekat Anda.</p>
+    </div>
+    <div class="relative bg-white rounded-2xl border border-slate-200 p-5">
+      <span class="absolute top-4 right-4 text-4xl font-extrabold text-slate-100 select-none">2</span>
+      <div class="text-2xl">💬</div>
+      <div class="mt-2 font-bold">Chat penjual</div>
+      <p class="text-sm text-slate-500 mt-1">Konfirmasi stok, harga, dan ongkir via WhatsApp.</p>
+    </div>
+    <div class="relative bg-white rounded-2xl border border-slate-200 p-5">
+      <span class="absolute top-4 right-4 text-4xl font-extrabold text-slate-100 select-none">3</span>
+      <div class="text-2xl">🤝</div>
+      <div class="mt-2 font-bold">Terima barang</div>
+      <p class="text-sm text-slate-500 mt-1">Ambil di tempat atau COD. Bayar setelah barang sampai.</p>
+    </div>
+  </div>
+
+  <div class="mt-4 rounded-2xl bg-brand-700 text-white p-5 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center gap-3">
+    <div class="text-3xl">🛡️</div>
+    <div>
+      <div class="font-extrabold">Setiap toko lolos verifikasi</div>
+      <p class="text-sm text-brand-100">KTP pemilik & alamat usaha dicek sebelum tampil di katalog. Laporkan jika ada kejanggalan.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONI -->
+<section class="bg-white border-y border-slate-200">
+  <div class="max-w-6xl mx-auto px-4 py-12">
+    <h2 class="text-xl sm:text-2xl font-extrabold tracking-tight text-center">Kata Tetangga</h2>
+    <div class="mt-8 grid sm:grid-cols-3 gap-4">
+      <figure class="bg-slate-50 rounded-2xl border border-slate-200 p-5">
+        <div class="text-amber-500 text-sm">★★★★★</div>
+        <blockquote class="mt-2 text-sm text-slate-600">"Sambalnya enak banget, pesan pagi sore sudah sampai. Penjualnya ramah."</blockquote>
+        <figcaption class="mt-3 text-xs font-bold text-slate-500">Rina — Cilandak</figcaption>
+      </figure>
+      <figure class="bg-slate-50 rounded-2xl border border-slate-200 p-5">
+        <div class="text-amber-500 text-sm">★★★★★</div>
+        <blockquote class="mt-2 text-sm text-slate-600">"Batiknya rapi, bisa custom ukuran. Harga jauh lebih masuk akal dari toko online."</blockquote>
+        <figcaption class="mt-3 text-xs font-bold text-slate-500">Dewi — Kebayoran Baru</figcaption>
+      </figure>
+      <figure class="bg-slate-50 rounded-2xl border border-slate-200 p-5">
+        <div class="text-amber-500 text-sm">★★★★☆</div>
+        <blockquote class="mt-2 text-sm text-slate-600">"Sebagai penjual, saya jadi punya pembeli dari kecamatan sebelah tanpa biaya iklan."</blockquote>
+        <figcaption class="mt-3 text-xs font-bold text-slate-500">Pak Tono — Mampang Prapatan</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="max-w-3xl mx-auto px-4 py-12">
+  <h2 class="text-xl sm:text-2xl font-extrabold tracking-tight text-center">Pertanyaan Umum</h2>
+  <div class="mt-6 space-y-2">
+    <details class="group bg-white border border-slate-200 rounded-2xl p-4">
+      <summary class="cursor-pointer list-none flex items-center justify-between font-bold text-sm">Apakah pembayaran dilakukan di website?<span class="text-slate-400 group-open:rotate-45 transition">＋</span></summary>
+      <p class="mt-2 text-sm text-slate-600">Tidak. Semua transaksi langsung antara pembeli dan penjual. Bayar tunai atau transfer setelah barang diterima.</p>
+    </details>
+    <details class="group bg-white border border-slate-200 rounded-2xl p-4">
+      <summary class="cursor-pointer list-none flex items-center justify-between font-bold text-sm">Berapa biaya untuk penjual?<span class="text-slate-400 group-open:rotate-45 transition">＋</span></summary>
+      <p class="mt-2 text-sm text-slate-600">Gratis. Tidak ada komisi maupun biaya listing.</p>
+    </details>
+    <details class="group bg-white border border-slate-200 rounded-2xl p-4">
+      <summary class="cursor-pointer list-none flex items-center justify-between font-bold text-sm">Bagaimana jika barang tidak sesuai?<span class="text-slate-400 group-open:rotate-45 transition">＋</span></summary>
+      <p class="mt-2 text-sm text-slate-600">Sepakati dulu detail barang di chat. Jika bermasalah, laporkan toko lewat WhatsApp admin — toko bisa diturunkan dari katalog.</p>
+    </details>
+    <details class="group bg-white border border-slate-200 rounded-2xl p-4">
+      <summary class="cursor-pointer list-none flex items-center justify-between font-bold text-sm">Bisa kirim ke luar kecamatan?<span class="text-slate-400 group-open:rotate-45 transition">＋</span></summary>
+      <p class="mt-2 text-sm text-slate-600">Bisa, selama penjual setuju. Ongkir dibicarakan langsung di chat.</p>
+    </details>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="max-w-6xl mx-auto px-4 pb-14">
+  <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand-700 to-brand-900 p-8 sm:p-12 text-white">
+    <div class="absolute -right-10 -top-10 text-[10rem] opacity-10 select-none">🏪</div>
+    <div class="relative max-w-lg">
+      <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Punya produk? Daftarkan UMKM Anda.</h2>
+      <p class="mt-2 text-brand-100 text-sm">Gratis, cukup KTP dan foto produk. Daftar hari ini, tampil besok.</p>
+      <a id="ctaDaftar" href="#" class="mt-5 inline-flex items-center gap-2 bg-white text-brand-800 font-bold text-sm px-5 py-3 rounded-xl hover:bg-brand-50 transition">Daftar via WhatsApp →</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-slate-900 text-slate-400">
+  <div class="max-w-6xl mx-auto px-4 py-12 grid sm:grid-cols-3 gap-8 text-sm">
+    <div>
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-lg bg-brand-600 text-white grid place-items-center font-extrabold text-sm">U</div>
+        <span class="text-white font-extrabold">UMKMKita</span>
+      </div>
+      <p class="mt-3 max-w-xs text-xs leading-relaxed">Menghubungkan produk UMKM sekitar kita. Bayar di tempat, tanpa potongan.</p>
+    </div>
+    <div>
+      <div class="text-white font-bold text-xs uppercase tracking-wide">Jelajahi</div>
+      <ul class="mt-3 space-y-2 text-xs">
+        <li><a href="#kategori" class="hover:text-white">Kategori</a></li>
+        <li><a href="#katalog" class="hover:text-white">Katalog</a></li>
+        <li><a href="#toko" class="hover:text-white">UMKM Pilihan</a></li>
+        <li><a href="#cara" class="hover:text-white">Cara Pesan</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="text-white font-bold text-xs uppercase tracking-wide">Bantuan</div>
+      <ul class="mt-3 space-y-2 text-xs">
+        <li><a id="waAdmin" href="#" class="hover:text-white">WhatsApp admin</a></li>
+        <li><a href="#cara" class="hover:text-white">Keamanan transaksi</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="border-t border-slate-800">
+    <div class="max-w-6xl mx-auto px-4 py-4 text-xs flex flex-col sm:flex-row justify-between gap-1">
+      <span>© 2026 UMKMKita — demo katalog UMKM.</span>
+      <span>Dibuat untuk warga Jakarta Selatan.</span>
+    </div>
+  </div>
+</footer>
+
+<!-- MODAL -->
+<div id="modal" class="fixed inset-0 z-50 hidden" role="dialog" aria-modal="true" aria-labelledby="mNama">
+  <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeModal()"></div>
+  <div class="relative h-full overflow-y-auto p-3 sm:p-6">
+    <div class="mx-auto max-w-lg bg-white rounded-3xl shadow-2xl overflow-hidden">
+      <div id="mHero" class="h-40 grid place-items-center text-7xl bg-gradient-to-br"></div>
+      <div class="p-5">
+        <div class="flex items-start justify-between gap-3">
+          <div>
+            <h3 id="mNama" class="text-lg font-extrabold leading-tight"></h3>
+            <p id="mToko" class="text-sm text-slate-500"></p>
+          </div>
+          <button onclick="closeModal()" aria-label="Tutup" class="text-slate-400 hover:text-slate-700 text-xl leading-none p-1">✕</button>
+        </div>
+        <div id="mMeta" class="mt-2 flex flex-wrap gap-1.5 text-[11px] font-bold"></div>
+        <div class="mt-3 flex items-end justify-between gap-2">
+          <div id="mHarga" class="text-2xl font-extrabold text-brand-700"></div>
+          <div id="mTotal" class="text-xs font-bold text-slate-500 text-right"></div>
+        </div>
+        <p id="mDesc" class="mt-2 text-sm text-slate-600"></p>
+
+        <form id="orderForm" class="mt-4 space-y-3 border-t border-slate-100 pt-4" novalidate>
+          <div class="grid grid-cols-2 gap-2">
+            <div class="col-span-2 flex items-center gap-2">
+              <label for="jumlah" class="text-xs font-bold text-slate-500 shrink-0">Jumlah</label>
+              <div class="flex items-center border border-slate-200 rounded-xl overflow-hidden">
+                <button type="button" onclick="stepQty(-1)" aria-label="Kurangi" class="px-3 py-2 text-slate-500 hover:bg-slate-50">−</button>
+                <input id="jumlah" name="jumlah" type="number" min="1" max="99" value="1" class="w-12 text-center text-sm font-bold py-2 outline-none">
+                <button type="button" onclick="stepQty(1)" aria-label="Tambah" class="px-3 py-2 text-slate-500 hover:bg-slate-50">＋</button>
+              </div>
+            </div>
+            <label class="sr-only" for="nama">Nama Anda</label>
+            <input id="nama" name="nama" required placeholder="Nama Anda" class="col-span-2 sm:col-span-1 text-sm border border-slate-200 rounded-xl px-3 py-2.5 outline-none focus:border-brand-500">
+            <label class="sr-only" for="wa">Nomor WhatsApp</label>
+            <input id="wa" name="wa" required inputmode="tel" placeholder="No. WhatsApp" class="col-span-2 sm:col-span-1 text-sm border border-slate-200 rounded-xl px-3 py-2.5 outline-none focus:border-brand-500">
+            <label class="sr-only" for="alamat">Alamat</label>
+            <input id="alamat" name="alamat" required placeholder="Alamat / patokan" class="col-span-2 text-sm border border-slate-200 rounded-xl px-3 py-2.5 outline-none focus:border-brand-500">
+            <label class="sr-only" for="catatan">Catatan</label>
+            <input id="catatan" name="catatan" placeholder="Catatan (opsional)" class="col-span-2 text-sm border border-slate-200 rounded-xl px-3 py-2.5 outline-none focus:border-brand-500">
+          </div>
+          <p id="formErr" class="hidden text-xs font-bold text-red-600">Lengkapi nama, WhatsApp, dan alamat dulu.</p>
+          <button class="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-3 rounded-xl transition">Pesan via WhatsApp</button>
+          <p class="text-[11px] text-slate-400 text-center">Tidak ada pembayaran di muka. Bayar setelah barang diterima.</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="fixed bottom-4 left-1/2 -translate-x-1/2 z-[60] hidden bg-slate-900 text-white text-sm font-semibold px-4 py-3 rounded-xl shadow-lg"></div>
+
+<script>
+const WA_ADMIN = "6281234567890";
+
+const DATA = [
+  {id:1, nama:"Keripik Pisang Coklat", toko:"Dapur Bu Sari", harga:18000, satuan:"250g", kat:"Kuliner", kec:"Cilandak", emoji:"🍌", grad:"from-amber-200 to-orange-300", rating:4.8, terjual:214, halal:true, desc:"Keripik pisang renyah dengan lapisan coklat premium. Digoreng harian, tanpa pengawet."},
+  {id:2, nama:"Batik Tulis Motif Parang", toko:"Griya Batik Ningsih", harga:285000, satuan:"kain 2m", kat:"Fashion", kec:"Kebayoran Baru", emoji:"🧵", grad:"from-indigo-200 to-purple-300", rating:4.9, terjual:58, halal:false, desc:"Batik tulis tangan pewarna alami, dikerjakan 2 minggu per lembar. Bisa custom ukuran."},
+  {id:3, nama:"Kue Basah Campur (Isi 10)", toko:"Kue Mbak Wati", harga:35000, satuan:"10 pcs", kat:"Kuliner", kec:"Pasar Minggu", emoji:"🧁", grad:"from-pink-200 to-rose-300", rating:4.7, terjual:389, halal:true, desc:"Aneka kue basah tradisional: lapis, talam, risoles. Pesan H-1 untuk acara."},
+  {id:4, nama:"Tas Rajut Handmade", toko:"Rajut Ceria", harga:125000, satuan:"pcs", kat:"Kriya", kec:"Tebet", emoji:"👜", grad:"from-teal-200 to-emerald-300", rating:4.8, terjual:76, halal:false, desc:"Tas rajut tangan dari benang katun, kuat untuk belanja harian. Warna bisa request."},
+  {id:5, nama:"Kopi Robusta Bubuk", toko:"Kedai Kopi Pak Tono", harga:45000, satuan:"200g", kat:"Kuliner", kec:"Mampang Prapatan", emoji:"☕", grad:"from-stone-300 to-amber-500", rating:4.9, terjual:301, halal:true, desc:"Robusta single origin dari petani lokal, disangrai medium. Fresh setiap minggu."},
+  {id:6, nama:"Sabun Herbal Sereh", toko:"Aroma Alam", harga:22000, satuan:"pcs", kat:"Kriya", kec:"Jagakarsa", emoji:"🧼", grad:"from-lime-200 to-green-300", rating:4.6, terjual:143, halal:true, desc:"Sabun batang minyak sereh & kelapa, cocok kulit sensitif. Tanpa SLS."},
+  {id:7, nama:"Dimsum Ayam Frozen", toko:"Dimsum 88", harga:42000, satuan:"20 pcs", kat:"Kuliner", kec:"Pancoran", emoji:"🥟", grad:"from-orange-200 to-red-300", rating:4.7, terjual:512, halal:true, desc:"Dimsum ayam homemade siap kukus. Frozen, tahan 1 bulan di freezer."},
+  {id:8, nama:"Vas Keramik Minimalis", toko:"Tanah Studio", harga:95000, satuan:"pcs", kat:"Kriya", kec:"Setiabudi", emoji:"🏺", grad:"from-slate-200 to-slate-400", rating:4.8, terjual:41, halal:false, desc:"Vas keramik putar tangan, glasir matte. Setiap unit sedikit berbeda."},
+  {id:9, nama:"Sambal Bawang Botol", toko:"Sambal Nusantara", harga:28000, satuan:"150ml", kat:"Kuliner", kec:"Cilandak", emoji:"🌶️", grad:"from-red-200 to-rose-400", rating:4.9, terjual:640, halal:true, desc:"Sambal bawang pedas level 3, tanpa pengawet. Tahan 3 minggu di kulkas."},
+  {id:10, nama:"Kaos Katun Sablon", toko:"Sablon Kilat", harga:75000, satuan:"pcs", kat:"Fashion", kec:"Tebet", emoji:"👕", grad:"from-sky-200 to-blue-300", rating:4.5, terjual:188, halal:false, desc:"Kaos katun combed 30s, sablon plastisol. Bisa custom desain min. 6 pcs."},
+  {id:11, nama:"Madu Hutan Murni", toko:"Madu Rimba", harga:130000, satuan:"500ml", kat:"Kuliner", kec:"Jagakarsa", emoji:"🍯", grad:"from-yellow-200 to-amber-400", rating:4.9, terjual:97, halal:true, desc:"Madu hutan liar tanpa campuran gula, dipanen musiman. Ada uji lab."},
+  {id:12, nama:"Lilin Aromaterapi", toko:"Wangi Rumah", harga:65000, satuan:"pcs", kat:"Kriya", kec:"Pasar Minggu", emoji:"🕯️", grad:"from-violet-200 to-fuchsia-300", rating:4.7, terjual:122, halal:false, desc:"Lilin soy wax aroma lavender & vanilla, lilin bakar 20 jam."},
+  {id:13, nama:"Kopi Susu Gula Aren", toko:"Kedai Kopi Pak Tono", harga:25000, satuan:"botol", kat:"Minuman", kec:"Mampang Prapatan", emoji:"🥤", grad:"from-amber-300 to-orange-500", rating:4.8, terjual:428, halal:true, desc:"Kopi susu ready to drink, gula aren asli. Dikirim dingin dalam botol 250ml."},
+  {id:14, nama:"Telur Asin Masir", toko:"Telur Asin Pak Slamet", harga:15000, satuan:"3 butir", kat:"Kuliner", kec:"Pancoran", emoji:"🥚", grad:"from-orange-200 to-amber-300", rating:4.6, terjual:265, halal:true, desc:"Telur asin masir legit, diasinkan 14 hari dengan metode tradisional."},
+  {id:15, nama:"Anyaman Bambu Serbaguna", toko:"Bambu Jaya", harga:85000, satuan:"pcs", kat:"Kriya", kec:"Setiabudi", emoji:"🧺", grad:"from-yellow-200 to-lime-300", rating:4.7, terjual:64, halal:false, desc:"Bakul anyaman bambu untuk buah atau hantaran. Kuat dan ringan."},
+  {id:16, nama:"Es Kelapa Muda Segar", toko:"Es Kelapa Pak Ahmad", harga:12000, satuan:"cup", kat:"Minuman", kec:"Kebayoran Baru", emoji:"🥥", grad:"from-emerald-200 to-teal-300", rating:4.5, terjual:501, halal:true, desc:"Kelapa muda asli dicampur sirup gula, disajikan dingin. Cocok siang hari."},
+];
+
+const KECS = ["Semua Kecamatan", ...new Set(DATA.map(d=>d.kec))];
+const KATS = ["Semua", ...new Set(DATA.map(d=>d.kat))];
+const state = { q:"", kec:"Semua Kecamatan", kat:"Semua", sort:"laris" };
+const rp = n => "Rp" + n.toLocaleString("id-ID");
+const $ = id => document.getElementById(id);
+
+$("kec").innerHTML = KECS.map(k=>`<option>${k}</option>`).join("");
+$("heroChips").innerHTML = ["Kuliner","Kriya","Fashion","Minuman"].map(k=>
+  `<button onclick="pickCat('${k}')" class="shrink-0 text-xs font-bold bg-white border border-slate-200 hover:border-brand-500 hover:text-brand-700 px-3 py-1.5 rounded-full transition">${k}</button>`
+).join("");
+
+// stats
+const nToko = new Set(DATA.map(d=>d.toko)).size;
+$("stats").innerHTML = [
+  ["🧺", DATA.length+" Produk"],
+  ["🏪", nToko+" UMKM"],
+  ["📍", new Set(DATA.map(d=>d.kec)).size+" Kecamatan"],
+].map(([e,t])=>`<div class="bg-white/80 border border-slate-200 rounded-2xl p-3 text-center"><div class="text-lg" aria-hidden="true">${e}</div><dd class="text-xs font-bold mt-0.5">${t}</dd></div>`).join("");
+
+// kategori tiles
+$("catTiles").innerHTML = KATS.filter(k=>k!=="Semua").map(k=>{
+  const n = DATA.filter(d=>d.kat===k).length;
+  const em = DATA.find(d=>d.kat===k).emoji;
+  return `<button onclick="pickCat('${k}')" class="group text-left bg-white border border-slate-200 rounded-2xl p-4 hover:border-brand-500 hover:shadow-soft transition">
+    <div class="text-2xl">${em}</div>
+    <div class="mt-2 font-bold text-sm">${k}</div>
+    <div class="text-[11px] text-slate-500">${n} produk</div>
+  </button>`;
+}).join("");
+
+// toko pilihan
+const tokoMap = {};
+DATA.forEach(d=>{
+  tokoMap[d.toko] ??= {nama:d.toko, kec:d.kec, kat:d.kat, n:0, terjual:0};
+  tokoMap[d.toko].n++; tokoMap[d.toko].terjual += d.terjual;
+});
+$("tokoGrid").innerHTML = Object.values(tokoMap).sort((a,b)=>b.terjual-a.terjual).slice(0,4).map(t=>`
+  <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4">
+    <div class="flex items-center gap-2.5">
+      <div class="w-10 h-10 rounded-xl bg-brand-100 text-brand-800 grid place-items-center font-extrabold">${t.nama.replace(/^(Dapur|Kedai|Kue|Griya|Rajut|Aroma|Dimsum|Tanah|Sambal|Sablon|Madu|Wangi|Telur|Bambu|Es)\s*/,"").charAt(0)}</div>
+      <div class="min-w-0">
+        <div class="font-bold text-sm truncate">${t.nama}</div>
+        <div class="text-[11px] text-slate-500">${t.kec}</div>
+      </div>
+    </div>
+    <div class="mt-3 flex items-center justify-between text-[11px] font-semibold text-slate-500">
+      <span>${t.n} produk</span>
+      <span>${t.terjual} terjual</span>
+    </div>
+    <button onclick="filterToko('${t.nama.replace(/'/g,"\\'")}')" class="mt-3 w-full text-xs font-bold text-brand-700 bg-brand-50 hover:bg-brand-100 py-2 rounded-lg transition">Lihat produk</button>
+  </div>`).join("");
+
+function filterToko(nama){
+  state.q = nama; state.kec = "Semua Kecamatan"; state.kat = "Semua";
+  $("q").value = nama; $("kec").value = state.kec;
+  renderCatChips(); scrollToKatalog(); render();
+}
+
+function renderCatChips(){
+  $("catChips").innerHTML = KATS.map(k=>{
+    const on = state.kat===k;
+    return `<button onclick="pickCat('${k}')" aria-pressed="${on}" class="shrink-0 text-sm font-bold px-4 py-2 rounded-full border transition ${on?'bg-brand-600 text-white border-brand-600 shadow-soft':'bg-white text-slate-600 border-slate-200 hover:border-brand-400'}">${k}</button>`;
+  }).join("");
+}
+
+function renderActive(){
+  const pills = [];
+  if(state.kat!=="Semua") pills.push(`<span class="inline-flex items-center gap-1 text-[11px] font-bold bg-brand-50 text-brand-700 px-2.5 py-1 rounded-full">Kategori: ${state.kat}</span>`);
+  if(state.kec!=="Semua Kecamatan") pills.push(`<span class="inline-flex items-center gap-1 text-[11px] font-bold bg-brand-50 text-brand-700 px-2.5 py-1 rounded-full">${state.kec}</span>`);
+  if(state.q) pills.push(`<span class="inline-flex items-center gap-1 text-[11px] font-bold bg-slate-100 text-slate-600 px-2.5 py-1 rounded-full">"${state.q}"</span>`);
+  $("activeFilters").innerHTML = pills.length ? pills.join("") + `<button onclick="resetFilter()" class="text-[11px] font-bold text-slate-400 hover:text-red-600 px-1">hapus semua</button>` : "";
+}
+
+function pickCat(k){ state.kat=k; renderCatChips(); scrollToKatalog(); render(); }
+function scrollToKatalog(){ $("katalog").scrollIntoView({behavior:"smooth", block:"start"}); }
+function resetFilter(){
+  state.q=""; state.kec="Semua Kecamatan"; state.kat="Semua"; state.sort="laris";
+  $("q").value=""; $("kec").value="Semua Kecamatan"; $("sort").value="laris";
+  renderCatChips(); render();
+}
+
+function filtered(){
+  const q = state.q.toLowerCase();
+  const out = DATA.filter(d=>
+    (state.kec==="Semua Kecamatan" || d.kec===state.kec) &&
+    (state.kat==="Semua" || d.kat===state.kat) &&
+    (!q || (d.nama+" "+d.toko+" "+d.kat+" "+d.desc).toLowerCase().includes(q))
+  );
+  const cmp = {
+    laris: (a,b)=>b.terjual-a.terjual,
+    murah: (a,b)=>a.harga-b.harga,
+    mahal: (a,b)=>b.harga-a.harga,
+    rating: (a,b)=>b.rating-a.rating,
+  }[state.sort];
+  return out.sort(cmp);
+}
+
+function render(){
+  const items = filtered();
+  $("count").textContent = items.length;
+  $("empty").classList.toggle("hidden", items.length>0);
+  renderActive();
+  $("grid").innerHTML = items.map(d=>`
+    <article class="group bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-soft hover:-translate-y-0.5 transition flex flex-col">
+      <button onclick="openModal(${d.id})" class="text-left" aria-label="Lihat detail ${d.nama}">
+        <div class="relative h-32 sm:h-36 bg-gradient-to-br ${d.grad} grid place-items-center text-5xl sm:text-6xl">
+          <span aria-hidden="true">${d.emoji}</span>
+          ${d.halal?'<span class="absolute top-2 left-2 text-[10px] font-bold bg-white/90 text-brand-700 px-2 py-0.5 rounded-full">Halal</span>':''}
+        </div>
+      </button>
+      <div class="p-3 flex flex-col flex-1">
+        <div class="text-[11px] font-bold text-brand-700">${d.kat}</div>
+        <h3 class="text-sm font-bold leading-snug clamp-2 mt-0.5">${d.nama}</h3>
+        <p class="text-[11px] text-slate-500 mt-0.5 truncate">${d.toko} · ${d.kec}</p>
+        <div class="mt-auto pt-2 flex items-end justify-between gap-1">
+          <div class="font-extrabold text-brand-700 text-sm">${rp(d.harga)}<span class="text-[10px] font-medium text-slate-400">/${d.satuan}</span></div>
+          <div class="text-[11px] text-slate-500 shrink-0">★${d.rating}</div>
+        </div>
+        <button onclick="openModal(${d.id})" class="mt-2 w-full text-xs font-bold text-brand-700 bg-brand-50 hover:bg-brand-100 py-2 rounded-lg transition">Pesan</button>
+      </div>
+    </article>`).join("");
+}
+
+let current = null;
+function openModal(id){
+  current = DATA.find(d=>d.id===id);
+  const m = $("modal"), hero = $("mHero");
+  hero.className = `h-40 grid place-items-center text-7xl bg-gradient-to-br ${current.grad}`;
+  hero.textContent = current.emoji;
+  $("mNama").textContent = current.nama;
+  $("mToko").textContent = `${current.toko} · ${current.kec}`;
+  $("mMeta").innerHTML = [
+    `<span class="bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full">${current.kat}</span>`,
+    `<span class="bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full">★ ${current.rating}</span>`,
+    `<span class="bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full">${current.terjual} terjual</span>`,
+    current.halal?`<span class="bg-brand-100 text-brand-700 px-2 py-0.5 rounded-full">Halal</span>`:``,
+  ].join("");
+  $("mHarga").textContent = `${rp(current.harga)} / ${current.satuan}`;
+  $("mDesc").textContent = current.desc;
+  $("orderForm").reset();
+  $("jumlah").value = 1;
+  $("formErr").classList.add("hidden");
+  updateTotal();
+  m.classList.remove("hidden");
+  document.body.style.overflow = "hidden";
+  $("nama").focus();
+}
+function closeModal(){
+  $("modal").classList.add("hidden");
+  document.body.style.overflow = "";
+}
+function stepQty(n){
+  const i = $("jumlah");
+  i.value = Math.min(99, Math.max(1, (Number(i.value)||1) + n));
+  updateTotal();
+}
+function updateTotal(){
+  if(!current) return;
+  const qty = Number($("jumlah").value) || 1;
+  $("mTotal").textContent = qty>1 ? `Total ${rp(current.harga*qty)}` : "";
+}
+$("jumlah").addEventListener("input", updateTotal);
+
+$("orderForm").addEventListener("submit", e=>{
+  e.preventDefault();
+  const f = new FormData(e.target);
+  const nama = (f.get("nama")||"").trim(), wa = (f.get("wa")||"").trim(), alamat = (f.get("alamat")||"").trim();
+  if(!nama || !wa || !alamat){
+    $("formErr").classList.remove("hidden");
+    return;
+  }
+  $("formErr").classList.add("hidden");
+  const qty = Math.max(1, Number(f.get("jumlah"))||1);
+  const txt =
+`Halo ${current.toko}, saya mau pesan:
+• Produk: ${current.nama} (${current.satuan})
+• Jumlah: ${qty}
+• Estimasi total: ${rp(current.harga*qty)}
+• Nama: ${nama}
+• WA: ${wa}
+• Alamat: ${alamat}
+• Catatan: ${f.get("catatan") || "-"}
+Mohon konfirmasi stok & ongkir. Terima kasih!`;
+  window.open(`https://wa.me/${WA_ADMIN}?text=${encodeURIComponent(txt)}`, "_blank");
+  toast("Membuka WhatsApp penjual…");
+});
+
+$("q").addEventListener("input", e=>{ state.q = e.target.value; render(); });
+$("kec").addEventListener("change", e=>{ state.kec = e.target.value; render(); });
+$("sort").addEventListener("change", e=>{ state.sort = e.target.value; render(); });
+document.addEventListener("keydown", e=>{ if(e.key==="Escape") closeModal(); });
+
+let toastTimer;
+function toast(msg){
+  const t = $("toast");
+  t.textContent = msg;
+  t.classList.remove("hidden");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>t.classList.add("hidden"), 2200);
+}
+
+// WhatsApp links
+const waLink = "https://wa.me/" + WA_ADMIN + "?text=" + encodeURIComponent("Halo admin UMKMKita, saya mau tanya soal katalog.");
+$("waAdmin").href = waLink;
+$("ctaDaftar").href = "https://wa.me/" + WA_ADMIN + "?text=" + encodeURIComponent("Halo admin UMKMKita, saya mau mendaftarkan UMKM saya. Nama usaha: ...");
+
+renderCatChips();
+render();
+</script>
+</body>
+</html>
